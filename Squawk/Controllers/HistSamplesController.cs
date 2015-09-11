@@ -14,11 +14,62 @@ namespace Squawk.Controllers
     {
         private DatabaseContext db = new DatabaseContext();
 
+        static Random r = new Random();
+
         // GET: HistSamples
         public ActionResult Index()
         {
             var histSamples = db.HistSamples.Include(h => h.Host).Include(h => h.SampleType);
             return View(histSamples.ToList());
+        }
+
+        public ActionResult CreateRandom()
+        {
+
+            // The following code can make the CPU bounce up and down
+            // which is useful for testing out tools which calculate the "average" CPU 
+            /*
+                        while (true)
+                        {
+                            for (int xx = 0; xx < 100000000; xx++)
+                            {
+                                int  y = 888;
+                                int x = 999;
+                                int z = x * y / (x + 1) / (y + 1);
+                                if (z > 7)
+                                    z += 1;
+                                else
+                                    z -= 1;
+                            }
+                            System.Threading.Thread.Sleep(1000);
+
+                        }
+                        return RedirectToAction("Index");
+            */
+
+            DateTime dtBase = new DateTime(2015, 1, 1);
+            double dbBase = 50;
+
+            for (int i = 0; i < (3 * 7 * 24 * 4); i++)
+            {
+                HistSample histSample = new HistSample { dbValue = dbBase, dtSample = dtBase, HostId = 1, SampleTypeId = 1 };
+
+                db.HistSamples.Add(histSample);
+                dtBase = dtBase.AddDays(1);
+                dbBase += GetRandomIncrement(-3, +3);
+                if (dbBase < 0)
+                    dbBase = 0;
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+        }
+
+
+        static double GetRandomIncrement(double dbmin, double dbmax)
+        {
+            return Math.Floor(r.NextDouble() * (dbmax - dbmin + 1.0)) + dbmin;
         }
 
         // GET: HistSamples/Details/5
