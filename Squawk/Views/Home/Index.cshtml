@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Squawk.Models.HistSample>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>System Monitoring</h2>
+        <canvas id="header-canvas1" width="640" height="480" style="background-color:#660066"></canvas>
+        <canvas id="header-canvas2" width="640" height="480" style="background-color:#5FBFDF"></canvas>
+    </div>
+</div>
+
+<script src="~/Scripts/Chart.js"></script>
+<script src="~/Scripts/Chart.Scatter.js"></script>
+
+<div id="legend"></div>
+
+<script>
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    var data = [];
+
+    var mydata =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(
+               Model,
+               new Newtonsoft.Json.JsonSerializerSettings {
+                   ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                   Formatting = Newtonsoft.Json.Formatting.Indented
+               } 
+    ));
+
+
+    for (var key in mydata)
+    {
+        if (mydata.hasOwnProperty(key))
+        {
+            data.push({
+                x: Date.parse(mydata[key].dtSample) + 24 * 3600000,
+                y: mydata[key].dbValue
+            });
+        }
+    }
+
+
+    var ctx1 = document.getElementById("header-canvas1").getContext("2d");
+    var myChart1 = new Chart(ctx1).Scatter([{ label: "dataset 1", data: data }], {
+        showScale: true,
+        scaleShowLabels: true,
+        scaleShowHorizontalLines: true,
+        scaleShowVerticalLines: false,
+        scaleLineWidth: 1,
+        scaleLineColor: "red",
+        scaleGridLineColor: "#999",
+        scaleLabel: "<%=value%>°C",
+        scaleDateFormat: "mm/yyyy",
+        scaleTimeFormat: "HH:MM",
+        scaleDateTimeFormat: "HH:MM",
+        scaleGridLineWidth: 1,
+        useUtc: true,
+        pointDot: false,
+        scaleType: 'date',
+        animation: false,
+
+        scaleOverride: true,
+        scaleSteps: 4,
+        scaleStepWidth: 50,
+        scaleStartValue: 0
+    });
+
+    var ctx2 = document.getElementById("header-canvas2").getContext("2d");
+    var myChart2 = new Chart(ctx2).Scatter([{ label: "dataset 1", data: data }], {
+        showScale: true,
+        scaleShowLabels: true,
+        scaleShowHorizontalLines: true,
+        scaleShowVerticalLines: false,
+        scaleLineWidth: 1,
+        scaleLineColor: "red",
+        scaleGridLineColor: "#999",
+        scaleLabel: "<%=value%>°C",
+        scaleDateFormat: "mm/yyyy",
+        scaleTimeFormat: "HH:MM",
+        scaleDateTimeFormat: "HH:MM",
+        scaleGridLineWidth: 1,
+        useUtc: true,
+        pointDot: false,
+        scaleType: 'date',
+        animation: false,
+
+        scaleOverride: true,
+        scaleSteps: 4,
+        scaleStepWidth: 50,
+        scaleStartValue: 0
+    });
+
+    document.getElementById("legend").innerHTML = myChart.generateLegend();
+
+
+</script>
+
+
+
+
+
+
+
+
+
