@@ -16,7 +16,6 @@ namespace Squawk
 
         public void Send(string name, string message)
         {
-            Clients.All.addNewMessageToPage(name, message);
             SendChartData();
         }
 

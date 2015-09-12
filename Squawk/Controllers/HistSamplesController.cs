@@ -47,7 +47,7 @@ namespace Squawk.Controllers
                         return RedirectToAction("Index");
             */
 
-            DateTime dtBase = new DateTime(2015, 1, 1);
+            DateTime dtBase = new DateTime(2015, 1, 1, 0, 15,0);
             double dbBase = 50;
 
             for (int i = 0; i < (3 * 7 * 24 * 4); i++)
@@ -55,10 +55,12 @@ namespace Squawk.Controllers
                 HistSample histSample = new HistSample { dbValue = dbBase, dtSample = dtBase, HostId = 1, SampleTypeId = 1 };
 
                 db.HistSamples.Add(histSample);
-                dtBase = dtBase.AddDays(1);
+                dtBase = dtBase.AddMinutes(15);
                 dbBase += GetRandomIncrement(-3, +3);
                 if (dbBase < 0)
                     dbBase = 0;
+                if (dbBase > 100)
+                    dbBase = 100;
             }
 
             db.SaveChanges();
