@@ -16,13 +16,11 @@ namespace Squawk
 
         public void Send(string name, string message)
         {
-            SendChartData();
+            foreach (Host host in  db.Hosts)
+            {
+                Clients.All.asyncChartDataReceiver(db.HistSamples.Where(item => item.HostId == host.Id));
+            }
         }
 
-        void SendChartData()
-        {
-            Clients.All.asyncMessageReceiver(db.HistSamples);
-
-        }
     }
 }

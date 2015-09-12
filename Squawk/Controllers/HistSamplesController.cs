@@ -52,7 +52,7 @@ namespace Squawk.Controllers
 
             for (int i = 0; i < (3 * 7 * 24 * 4); i++)
             {
-                HistSample histSample = new HistSample { dbValue = dbBase, dtSample = dtBase, HostId = 1, SampleTypeId = 1 };
+                HistSample histSample = new HistSample { dbValue = dbBase, dtSample = dtBase, HostId = 1005, SampleTypeId = 1 };
 
                 db.HistSamples.Add(histSample);
                 dtBase = dtBase.AddMinutes(15);
