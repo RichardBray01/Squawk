@@ -46,8 +46,72 @@
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
 
-            chat.client.asyncMessageReceiver = function (name, message) {
-                $('#discussion').append('<li> async received </li>');
+            chat.client.asyncMessageReceiver = function (bigobj) {
+                
+                var dataArray = [];
+
+                for (var key in bigobj)
+                {
+                    if (bigobj.hasOwnProperty(key))
+                    {
+                        dataArray.push({
+                            x: Date.parse(bigobj[key].dtSample) + 24 * 3600000,
+                            y: bigobj[key].dbValue
+                        });
+                    }
+                }
+
+                var ctx1 = document.getElementById("header-canvas1").getContext("2d");
+                var myChart1 = new Chart(ctx1).Scatter([{ label: "dataset 1", data: dataArray }], {
+                    showScale: true,
+                    scaleShowLabels: true,
+                    scaleShowHorizontalLines: true,
+                    scaleShowVerticalLines: false,
+                    scaleLineWidth: 1,
+                    scaleLineColor: "red",
+                    scaleGridLineColor: "#999",
+                    scaleLabel: "<%=value%>°C",
+                    scaleDateFormat: "mm/yyyy",
+                    scaleTimeFormat: "HH:MM",
+                    scaleDateTimeFormat: "HH:MM",
+                    scaleGridLineWidth: 1,
+                    useUtc: true,
+                    pointDot: false,
+                    scaleType: 'date',
+                    animation: false,
+
+                    scaleOverride: true,
+                    scaleSteps: 4,
+                    scaleStepWidth: 50,
+                    scaleStartValue: 0
+                });
+
+
+
+                var ctx2 = document.getElementById("header-canvas2").getContext("2d");
+                var myChart2 = new Chart(ctx2).Scatter([{ label: "dataset 1", data: dataArray }], {
+                    showScale: true,
+                    scaleShowLabels: true,
+                    scaleShowHorizontalLines: true,
+                    scaleShowVerticalLines: false,
+                    scaleLineWidth: 1,
+                    scaleLineColor: "red",
+                    scaleGridLineColor: "#999",
+                    scaleLabel: "<%=value%>°C",
+                    scaleDateFormat: "mm/yyyy",
+                    scaleTimeFormat: "HH:MM",
+                    scaleDateTimeFormat: "HH:MM",
+                    scaleGridLineWidth: 1,
+                    useUtc: true,
+                    pointDot: false,
+                    scaleType: 'date',
+                    animation: false,
+
+                    scaleOverride: true,
+                    scaleSteps: 4,
+                    scaleStepWidth: 50,
+                    scaleStartValue: 0
+                });
             };
 
             $('#displayname').val(prompt('Enter your name:', ''));
@@ -62,87 +126,7 @@
             });
         });
 
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        var data = [];
-
-        var mydata =@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(
-                       Model,
-                       new Newtonsoft.Json.JsonSerializerSettings
-        {
-                           ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
-                           Formatting = Newtonsoft.Json.Formatting.Indented
-        }
-        ));
-
-
-
-        for (var key in mydata)
-        {
-            if (mydata.hasOwnProperty(key))
-            {
-                data.push({
-                    x: Date.parse(mydata[key].dtSample) + 24 * 3600000,
-                    y: mydata[key].dbValue
-                });
-            }
-        }
-
-
-        var ctx1 = document.getElementById("header-canvas1").getContext("2d");
-        var myChart1 = new Chart(ctx1).Scatter([{ label: "dataset 1", data: data }], {
-            showScale: true,
-            scaleShowLabels: true,
-            scaleShowHorizontalLines: true,
-            scaleShowVerticalLines: false,
-            scaleLineWidth: 1,
-            scaleLineColor: "red",
-            scaleGridLineColor: "#999",
-            scaleLabel: "<%=value%>°C",
-            scaleDateFormat: "mm/yyyy",
-            scaleTimeFormat: "HH:MM",
-            scaleDateTimeFormat: "HH:MM",
-            scaleGridLineWidth: 1,
-            useUtc: true,
-            pointDot: false,
-            scaleType: 'date',
-            animation: false,
-
-            scaleOverride: true,
-            scaleSteps: 4,
-            scaleStepWidth: 50,
-            scaleStartValue: 0
-        });
-
-        var ctx2 = document.getElementById("header-canvas2").getContext("2d");
-        var myChart2 = new Chart(ctx2).Scatter([{ label: "dataset 1", data: data }], {
-            showScale: true,
-            scaleShowLabels: true,
-            scaleShowHorizontalLines: true,
-            scaleShowVerticalLines: false,
-            scaleLineWidth: 1,
-            scaleLineColor: "red",
-            scaleGridLineColor: "#999",
-            scaleLabel: "<%=value%>°C",
-            scaleDateFormat: "mm/yyyy",
-            scaleTimeFormat: "HH:MM",
-            scaleDateTimeFormat: "HH:MM",
-            scaleGridLineWidth: 1,
-            useUtc: true,
-            pointDot: false,
-            scaleType: 'date',
-            animation: false,
-
-            scaleOverride: true,
-            scaleSteps: 4,
-            scaleStepWidth: 50,
-            scaleStartValue: 0
-        });
-
-        document.getElementById("legend").innerHTML = myChart.generateLegend();
-
+    
         // This optional function html-encodes messages for display in the page.
         function htmlEncode(value) {
             var encodedValue = $('<div />').text(value).html();

@@ -13,8 +13,7 @@ namespace Squawk.Controllers
 
         public ActionResult Index()
         {
-            var histSamples = db.HistSamples.Include(h => h.Host).Include(h => h.SampleType);
-            return View(db.HistSamples);
+            return View();
         }
 
 

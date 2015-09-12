@@ -273,6 +273,7 @@
     <Content Include="Views\SampleTypes\Details.cshtml" />
     <Content Include="Views\SampleTypes\Edit.cshtml" />
     <Content Include="Views\SampleTypes\Index.cshtml" />
+    <Content Include="Views\Home\PrintChartUsingJsonSerialization.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
