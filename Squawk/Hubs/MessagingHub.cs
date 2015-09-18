@@ -14,7 +14,7 @@ namespace Squawk
     {
         private DatabaseContext db = new DatabaseContext();
 
-        public void Send(string name, string message)
+        public void Trigger()
         {
             foreach (Host host in  db.Hosts)
             {

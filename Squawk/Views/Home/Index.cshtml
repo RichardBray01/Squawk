@@ -82,13 +82,13 @@
 
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
-                    chart = 0;
+                    chartCount = 0;
                     $("#chartcanvascontainer").empty();
-                    chat.server.send("hello", "mum");
+                    chat.server.trigger();
                 });
 
                 $(document).ready(function () {
-                        chat.server.send("hello", "mum");
+                        chat.server.trigger();
                 });
 
             });
