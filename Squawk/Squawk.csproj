@@ -202,8 +202,20 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Get-HyperVReport\get-hypervreport-demo.html" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Get-HyperVReport\ScriptLog.txt" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Misc\read sql server data into a variable.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Modules\MyFunctions\MyFunctions.psm1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Misc\cpu usage investigation.ps1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Misc\project.ps1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Misc\read sql server data into a variable.ps1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Misc\snapshot CPU usage historic point for each host.ps1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Misc\temp.ps1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\FindIPAddresses\get-ipaddr.ps1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Get-HyperVReport\Get-HyperVReport.ps1" />
+    <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Project\project.ps1" />
     <None Include="Properties\PublishProfiles\PublishSquawk.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
@@ -259,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Miscellaneous\Database backups\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

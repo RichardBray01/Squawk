@@ -1,0 +1,6 @@
+
+[DEBUG]   - 05.Sep.2015 19:14:15 - ----- Start -----
+[INFO]    - 05.Sep.2015 19:14:15 - Logging started: C:\Users\admin\Downloads\Get-HyperVReport-v1.5\ScriptLog.txt
+[ERROR]   - 05.Sep.2015 19:14:18 - Hyper-V target parameter is missing. Use -Cluster or -VMHost parameter to define target.
+[WARNING] - 05.Sep.2015 19:14:18 - For technical information, type: Get-Help .\Get-HyperVReport.ps1 -examples
+[ERROR]   - 05.Sep.2015 19:14:18 - Script terminated!
