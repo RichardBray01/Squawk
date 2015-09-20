@@ -16,58 +16,108 @@ namespace Squawk.Controllers
 
         static Random r = new Random();
 
-        // GET: HistSamples
         public ActionResult Index()
         {
             var histSamples = db.HistSamples.Include(h => h.Host).Include(h => h.SampleType);
             return View(histSamples.ToList());
         }
 
-        public ActionResult CreateRandom()
+        enum SampleType
+        {
+            Cpu = 1,
+            Disk = 2,
+            Network = 3,
+            Memory = 4
+        };
+
+        public ActionResult WriteRandomChartDataIntoDatabase()
         {
 
-            // The following code can make the CPU bounce up and down
-            // which is useful for testing out tools which calculate the "average" CPU 
-            /*
-                        while (true)
-                        {
-                            for (int xx = 0; xx < 100000000; xx++)
-                            {
-                                int  y = 888;
-                                int x = 999;
-                                int z = x * y / (x + 1) / (y + 1);
-                                if (z > 7)
-                                    z += 1;
-                                else
-                                    z -= 1;
-                            }
-                            System.Threading.Thread.Sleep(1000);
-
-                        }
-                        return RedirectToAction("Index");
-            */
-
-            DateTime dtBase = new DateTime(2015, 1, 1, 0, 15,0);
-            double dbBase = 50;
+            DateTime dtSampleDate = new DateTime(2015, 1, 1, 0, 15,0);
+            double dbCpu = 20;
+            double dbDisk = 40;
+            double dbNetwork = 60;
+            double dbMemory = 80;
 
             for (int i = 0; i < (3 * 7 * 24 * 4); i++)
             {
-                HistSample histSample = new HistSample { dbValue = dbBase, dtSample = dtBase, HostId = 1005, SampleTypeId = 1 };
+                try
+                {
+                    HistSample histSample1 = new HistSample { dbValue = dbCpu, dtSample = dtSampleDate, HostId = 1, SampleTypeId = (int) SampleType.Cpu };
+                    db.HistSamples.Add(histSample1);
 
-                db.HistSamples.Add(histSample);
-                dtBase = dtBase.AddMinutes(15);
-                dbBase += GetRandomIncrement(-3, +3);
-                if (dbBase < 0)
-                    dbBase = 0;
-                if (dbBase > 100)
-                    dbBase = 100;
+                    HistSample histSample2 = new HistSample { dbValue = dbDisk, dtSample = dtSampleDate, HostId = 1, SampleTypeId = (int)SampleType.Disk };
+                    db.HistSamples.Add(histSample2);
+
+                    HistSample histSample3 = new HistSample { dbValue = dbNetwork, dtSample = dtSampleDate, HostId = 1, SampleTypeId = (int)SampleType.Network };
+                    db.HistSamples.Add(histSample3);
+
+                    HistSample histSample4 = new HistSample { dbValue = dbMemory, dtSample = dtSampleDate, HostId = 1, SampleTypeId = (int)SampleType.Memory };
+                    db.HistSamples.Add(histSample4);
+
+                    db.SaveChanges();
+
+                    dtSampleDate = dtSampleDate.AddMinutes(15);
+
+                    dbCpu += GetRandomIncrement(-3, +3);
+                    if (dbCpu < 0)
+                        dbCpu = 0;
+                    if (dbCpu > 100)
+                        dbCpu = 100;
+
+                    dbDisk += GetRandomIncrement(-2, +2);
+                    if (dbDisk < 0)
+                        dbDisk = 0;
+                    if (dbDisk > 100)
+                        dbDisk = 100;
+
+                    dbNetwork += GetRandomIncrement(-1, +1);
+                    if (dbNetwork < 0)
+                        dbNetwork = 0;
+                    if (dbNetwork > 100)
+                        dbNetwork = 100;
+
+                    dbMemory += GetRandomIncrement(-1, +1);
+                    if (dbMemory < 20)
+                        dbMemory = 20;
+                    if (dbMemory > 80)
+                        dbMemory = 80;
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception : " + e.Message);
+                }
+
             }
 
-            db.SaveChanges();
             return RedirectToAction("Index");
 
         }
 
+        public ActionResult MakeCPUGoUpAndDown()
+        {
+
+            // The following code can make the CPU bounce up and down
+            // which is useful for testing out tools which calculate the "average" CPU 
+            while (true)
+            {
+                for (int xx = 0; xx < 100000000; xx++)
+                {
+                    int y = 888;
+                    int x = 999;
+                    int z = x * y / (x + 1) / (y + 1);
+                    if (z > 7)
+                        z += 1;
+                    else
+                        z -= 1;
+                }
+                System.Threading.Thread.Sleep(1000);
+
+            }
+
+            return RedirectToAction("Index");
+        }
 
         static double GetRandomIncrement(double dbmin, double dbmax)
         {
@@ -185,5 +235,9 @@ namespace Squawk.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
+
+
 }

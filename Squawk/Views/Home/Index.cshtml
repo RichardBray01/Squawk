@@ -28,56 +28,111 @@
       
             chat.client.asyncChartDataReceiver = function (chartdata) {
 
-                var dataArray = [];
+                var cpuData = [];
+                var diskData = [];
+                var networkData = [];
+                var memoryData = [];
 
                 for (var key in chartdata)
                 {
                     if (chartdata.hasOwnProperty(key))
                     {
-                        dataArray.push({
-                            x: Date.parse(chartdata[key].dtSample) + 24 * 3600000,
-                            y: chartdata[key].dbValue
-                        });
+                        switch(chartdata[key].SampleTypeId)
+                        {
+                            case 1:
+                                cpuData.push({
+                                    x: Date.parse(chartdata[key].dtSample) + 24 * 3600000,
+                                    y: chartdata[key].dbValue
+                                });
+                                break;
+
+                            case 2:
+                                diskData.push({
+                                    x: Date.parse(chartdata[key].dtSample) + 24 * 3600000,
+                                    y: chartdata[key].dbValue
+                                });
+                                break;
+
+                            case 3:
+                                networkData.push({
+                                    x: Date.parse(chartdata[key].dtSample) + 24 * 3600000,
+                                    y: chartdata[key].dbValue
+                                });
+                                break;
+
+                            case 4:
+                                memoryData.push({
+                                    x: Date.parse(chartdata[key].dtSample) + 24 * 3600000,
+                                    y: chartdata[key].dbValue
+                                });
+                                break;
+
+
+                        }
                     }
                 }
+
+                var chartData = {
+                    datasets: [
+                        { label: 'cpu usage', strokeColor: "darkgray",    data: cpuData },
+                        { label: 'disk usage', strokeColor: "black",      data: diskData },
+                        { label: 'network usage',  strokeColor: "#008AE6",    data: networkData },
+                        { label: 'memory usage', strokeColor: "green",       data: memoryData }
+                    ]
+                };
+
+                var chartWidth = "1000"
+                var chartHeight = "180"
+
                 var $hostname = chartdata[0].Host.Name;
 
-                $("#chartcanvascontainer").append($("<p>", { text: $hostname }));
-
-                var $canvasid = "header-canvas" + chartCount++;
-
-                var $canvas = $("<canvas>", { id: $canvasid, "class": "chartcanvas", width: "800", height: "140" });
-               
+                var $canvasid = "canvas-" + chartCount;
+                var $canvas = $("<canvas>", { id: $canvasid, width: chartWidth, height: chartHeight });
                 $canvas.css('margin-bottom', 20);
 
+                $("#chartcanvascontainer").append($("<p>", { text: $hostname }));
                 $("#chartcanvascontainer").append($canvas);
 
-                var ctx1 = document.getElementById($canvasid).getContext("2d");
+                var ctx = document.getElementById($canvasid).getContext("2d");
 
-                var myChart1 = new Chart(ctx1).Scatter([{ label: "dataset 1", data: dataArray }], {
-                    showScale: true,
-                    scaleShowLabels: true,
-                    scaleShowHorizontalLines: true,
-                    scaleShowVerticalLines: true,
-                    scaleLineWidth: 1,
-                    scaleLineColor: "darkgray",
-                    scaleGridLineColor: "lightblue",
-                    scaleLabel: "<%=value%>%",
-                    scaleDateFormat: "ddd/dd",
-                    scaleTimeFormat: "",
-                    scaleDateTimeFormat: "",
-                    scaleGridLineWidth: 1,
-                    useUtc: true,
-                    pointDot: false,
-                    scaleType: 'date',
-                    animation: false,
+                var myLineChart = new Chart(ctx).Scatter(chartData,
+                    {
+                        showScale: true,
+                        scaleShowLabels: true,
+                        scaleShowHorizontalLines: true,
+                        scaleShowVerticalLines: true,
+                        scaleLineWidth: 0.5,
+                        scaleLineColor: "darkgray",
+                        scaleGridLineColor: "lightblue",
+                        scaleLabel: "<%=value%>%",
+                        scaleDateFormat: "ddd/dd",
+                        scaleTimeFormat: "",
+                        scaleDateTimeFormat: "",
+                        scaleGridLineWidth: 0.5,
+                        useUtc: true,
+                        pointDot: false,
+                        scaleType: 'date',
+                        animation: false,
 
-                    scaleOverride: true,
-                    scaleSteps: 4,
-                    scaleStepWidth: 25,
-                    scaleStartValue: 0
-                });
+                        scaleOverride: true,
+                        scaleSteps: 4,
+                        scaleStepWidth: 25,
+                        scaleStartValue: 0,
 
+                        legendTemplate : '<P>'
+                                            +'<% for (var i=0; i<datasets.length; i++) { %>'
+                                              +'<span style=\"color:<%=datasets[i].strokeColor%>\">'
+                                              +'<% if (datasets[i].label) { %><%= datasets[i].label %><% } %>'
+                                            + '</span>&nbsp;&nbsp;&nbsp;'
+                                          +'<% } %>'
+                                        +'</P>'
+                    });
+
+                var legend = myLineChart.generateLegend();
+
+                $("#chartcanvascontainer").append(legend);
+
+                chartCount++;
             };
 
             $.connection.hub.start().done(function () {
