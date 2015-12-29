@@ -216,6 +216,13 @@
     <Content Include="Miscellaneous\WindowsPowerShell\Scripts\FindIPAddresses\get-ipaddr.ps1" />
     <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Get-HyperVReport\Get-HyperVReport.ps1" />
     <Content Include="Miscellaneous\WindowsPowerShell\Scripts\Project\project.ps1" />
+    <Content Include="Miscellaneous\Database backups\squark 2015-09-12 15-55" />
+    <Content Include="Miscellaneous\Database backups\squawk" />
+    <Content Include="Miscellaneous\Database backups\squawk 2015-09-12 18-40" />
+    <Content Include="Miscellaneous\Database backups\squawk-demo-v1.bak" />
+    <Content Include="Miscellaneous\Database backups\squawk-dev-v1.bak" />
+    <Content Include="Miscellaneous\Database backups\squawk-empty-v1.bak" />
+    <Content Include="Miscellaneous\Database backups\squawk-safe.bak" />
     <None Include="Properties\PublishProfiles\PublishSquawk.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
@@ -271,7 +278,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Miscellaneous\Database backups\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
